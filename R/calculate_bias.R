@@ -288,13 +288,13 @@ calculate_bias <- function(x,
         terra::crs(k) <- terra::crs(occ.out)
         k
       })
-    dis.ras <- lapply(dis.ras, function(k) terra::crop(k, occ.out))
-    dis.ras <- lapply(dis.ras, function(k) terra::mask(k, occ.out))
+  }
+  dis.ras <- lapply(dis.ras, function(k) terra::crop(k, occ.out))
+  dis.ras <- lapply(dis.ras, function(k) terra::mask(k, occ.out))
 
-    ##  check if there are values in the distance raster
-    if (all(is.na(values(dis.ras[[1]])))) {
-      stop("No valid distances found. Consider setting terrestrial = F")
-    }
+  ##  check if there are values in the distance raster
+  if (all(is.na(values(dis.ras[[1]])))) {
+    stop("No valid distances found. Consider setting terrestrial = F")
   }
   ## Name rasters
   if (is.null(names(dis.ras))) {
