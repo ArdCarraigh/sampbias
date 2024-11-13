@@ -83,18 +83,11 @@ map_bias <- function(x,
 
   # Bias rasters
   message("Plotting bias rasters")
-  coords <- x %>%
-    terra::crds() %>%
-    as.data.frame() %>%
-    rename(geo_lon = .data$x, geo_lat = .data$y)
-
-
-  plo <- terra::as.data.frame(x) %>%
-    bind_cols(coords) %>%
+  plo <- terra::as.data.frame(x, xy = TRUE, na.rm = TRUE) %>%
+    rename(geo_lon = x, geo_lat = y) %>%
     pivot_longer(cols = -contains("geo"), values_to = "val", names_to = "split") %>%
     filter(split != "occurrences")
-
-
+                             
   if (type == "sampling_rate") {
     plo <- plo %>%
       filter(split != "Total_percentage")
