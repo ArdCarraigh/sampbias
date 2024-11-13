@@ -45,7 +45,9 @@ plot.sampbias <- function(x, ...) {
     mutate(bias = fct_reorder(.data$bias, .data$posterior_estimate, .fun = median, .desc = FALSE))
 
   plo2_w <-colMeans(x$bias_estimate)
-  plo2_dist <- seq(1,1000,length.out=1000)
+  n_gaz <- length(unique(plo1$bias))
+  length_dist <- n_gaz * round(1000/n_gaz)
+  plo2_dist <- seq(1,length_dist,length.out=length_dist)
   plo2 <- data.frame(dist = plo2_dist,
                      rate = plo2_w[4] * exp(-plo2_w[5:(length(plo2_w)-1)]*plo2_dist),
                      id = names(x$bias_estimate)[-c(1:4, ncol(x$bias_estimate))]) %>%
